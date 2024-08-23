@@ -36,6 +36,7 @@ export default class Game {
     const gameLoop = () => {
       this.board.render();
       const column = parseInt(getPrompt('Ange kolumn (1-7): '), 10) - 1;
+
       if (column < 0 || column >= 7) {
         console.log('Ogiltigt kolumnnummer, försök igen.');
         setTimeout(gameLoop, 2000);

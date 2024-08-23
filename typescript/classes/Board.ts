@@ -14,7 +14,9 @@ export default class Board {
       Yellow: '🟡',
     };
 
-    console.log(this.matrix.map(row => row.map(cell => colorSymbols[cell] || '  ').join('|')).join('\n' + '-'.repeat(15) + '\n'));
+    console.log(
+      this.matrix.map(row => '|' + row.map(cell => colorSymbols[cell] || '  ').join('|') + '|').join('\n' + '-'.repeat(22) + '\n')
+    );
   }
 
   makeMove(column: number): boolean {
