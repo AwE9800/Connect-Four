@@ -13,7 +13,7 @@ export default class Game {
     this.createPlayers();
     this.showPlayers();
     this.board = new Board();
-    this.showBoard();
+    this.startGameLoop();
   }
 
   createPlayers(): void {
@@ -31,8 +31,16 @@ export default class Game {
       console.log(`Spelare Gul: ${this.playerYellow.name}`);
     }
   }
-  //change later in to a gameloop
-  showBoard(): void {
-    this.board.render();
+
+  startGameLoop(): void {
+    const gameLoop = () => {
+      this.board.render();
+      const column = parseInt(getPrompt('Ange kolumn (1-7): '), 10) - 1;
+      if (this.board.makeMove(column)) {
+        setTimeout(gameLoop, 100);
+      }
+    };
+
+    gameLoop();
   }
 }
