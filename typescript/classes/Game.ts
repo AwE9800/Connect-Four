@@ -36,9 +36,19 @@ export default class Game {
     const gameLoop = () => {
       this.board.render();
       const column = parseInt(getPrompt('Ange kolumn (1-7): '), 10) - 1;
-      if (this.board.makeMove(column)) {
-        setTimeout(gameLoop, 100);
+      if (column < 0 || column >= 7) {
+        console.log('Ogiltigt kolumnnummer, försök igen.');
+        setTimeout(gameLoop, 2000);
+        return;
       }
+
+      if (!this.board.makeMove(column)) {
+        console.log('Kolumnen är full eller ogiltigt drag, försök igen.');
+        setTimeout(gameLoop, 2000);
+        return;
+      }
+
+      setTimeout(gameLoop, 100);
     };
 
     gameLoop();
