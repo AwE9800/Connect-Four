@@ -31,4 +31,23 @@ export default class Board {
     }
     return false;
   }
+  checkForWin(): boolean {
+    const currentPlayer = this.currentPlayer === 'Red' ? 'Yellow' : 'Red';
+
+    for (let row = 0; row < this.matrix.length; row++) {
+      for (let col = 0; col < this.matrix[row].length; col++) {
+        if (this.matrix[row][col] === currentPlayer) {
+          if (
+            col + 3 < this.matrix[row].length &&
+            this.matrix[row][col + 1] === currentPlayer &&
+            this.matrix[row][col + 2] === currentPlayer &&
+            this.matrix[row][col + 3] === currentPlayer
+          ) {
+            return true;
+          }
+        }
+      }
+    }
+    return false;
+  }
 }

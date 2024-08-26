@@ -49,6 +49,12 @@ export default class Game {
         return;
       }
 
+      if (this.board.checkForWin()) {
+        this.board.render();
+        console.log(`Grattis ${this.board.currentPlayer === 'Red' ? 'Yellow' : 'Red'} spelare! Du vann!`);
+        return;
+      }
+
       setTimeout(gameLoop, 100);
     };
 
