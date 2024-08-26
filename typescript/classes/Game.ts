@@ -54,6 +54,12 @@ export default class Game {
         return;
       }
 
+      if (this.board.draw()) {
+        this.board.render();
+        console.log('Spelet är oavgjort!');
+        return;
+      }
+
       setTimeout(gameLoop, 100);
     };
 

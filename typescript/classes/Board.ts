@@ -78,4 +78,7 @@ export default class Board {
     }
     return false;
   }
+  draw(): boolean {
+    return this.matrix[0].every(cell => cell !== ' ');
+  }
 }
