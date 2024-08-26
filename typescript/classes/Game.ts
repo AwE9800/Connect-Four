@@ -11,7 +11,6 @@ export default class Game {
 
   constructor() {
     this.createPlayers();
-    this.showPlayers();
     this.board = new Board();
     this.startGameLoop();
   }
@@ -25,16 +24,15 @@ export default class Game {
     this.playerYellow = new Player(nameYellow, 'Yellow');
   }
 
-  showPlayers(): void {
-    if (this.playerRed && this.playerYellow) {
-      console.log(`\nSpelare Röd: ${this.playerRed.name}`);
-      console.log(`Spelare Gul: ${this.playerYellow.name}`);
-    }
+  getPlayersName(): string | undefined {
+    return this.board.currentPlayer === 'Red' ? this.playerRed?.name : this.playerYellow?.name;
   }
 
   startGameLoop(): void {
     const gameLoop = () => {
       this.board.render();
+
+      console.log(`Det är ${this.getPlayersName()}'s tur att spela.`);
       const column = parseInt(getPrompt('Ange kolumn (1-7): '), 10) - 1;
 
       if (column < 0 || column >= 7) {
@@ -51,7 +49,8 @@ export default class Game {
 
       if (this.board.checkForWin()) {
         this.board.render();
-        console.log(`Grattis ${this.board.currentPlayer === 'Red' ? 'Yellow' : 'Red'} spelare! Du vann!`);
+        const winningPlayer = this.board.currentPlayer === 'Red' ? this.playerYellow : this.playerRed;
+        console.log(`Grattis ${winningPlayer?.name}! Du vann!`);
         return;
       }
 
