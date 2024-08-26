@@ -28,6 +28,14 @@ export default class Game {
     return this.board.currentPlayer === 'Red' ? this.playerRed?.name : this.playerYellow?.name;
   }
 
+  playAgain(): void {
+    const playAgain = getPrompt('Spela igen? (ja/nej):').toLowerCase();
+    if (playAgain === 'ja') {
+      this.board = new Board();
+      this.startGameLoop();
+    }
+  }
+
   startGameLoop(): void {
     const gameLoop = () => {
       this.board.render();
@@ -51,12 +59,14 @@ export default class Game {
         this.board.render();
         const winningPlayer = this.board.currentPlayer === 'Red' ? this.playerYellow : this.playerRed;
         console.log(`Grattis ${winningPlayer?.name}! Du vann!`);
+        this.playAgain();
         return;
       }
 
       if (this.board.draw()) {
         this.board.render();
         console.log('Spelet är oavgjort!');
+        this.playAgain();
         return;
       }
 
