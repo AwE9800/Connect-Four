@@ -45,6 +45,34 @@ export default class Board {
           ) {
             return true;
           }
+          if (
+            row + 3 < this.matrix.length &&
+            this.matrix[row + 1][col] === currentPlayer &&
+            this.matrix[row + 2][col] === currentPlayer &&
+            this.matrix[row + 3][col] === currentPlayer
+          ) {
+            return true;
+          }
+
+          if (
+            row - 3 >= 0 &&
+            col + 3 < this.matrix[row].length &&
+            this.matrix[row - 1][col + 1] === currentPlayer &&
+            this.matrix[row - 2][col + 2] === currentPlayer &&
+            this.matrix[row - 3][col + 3] === currentPlayer
+          ) {
+            return true;
+          }
+
+          if (
+            row + 3 < this.matrix.length &&
+            col + 3 < this.matrix[row].length &&
+            this.matrix[row + 1][col + 1] === currentPlayer &&
+            this.matrix[row + 2][col + 2] === currentPlayer &&
+            this.matrix[row + 3][col + 3] === currentPlayer
+          ) {
+            return true;
+          }
         }
       }
     }
