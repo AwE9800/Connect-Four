@@ -58,11 +58,11 @@ export default class Game {
       if (this.board.currentPlayer === 'Red' && this.playerRed?.isAI) {
         console.log(`AI (${this.playerRed.name}) spelar...`);
         this.aiMove();
-        this.checkGameState();
+        setTimeout(() => this.checkGameState(), 800);
       } else if (this.board.currentPlayer === 'Yellow' && this.playerYellow?.isAI) {
         console.log(`AI (${this.playerYellow.name}) spelar...`);
         this.aiMove();
-        this.checkGameState();
+        setTimeout(() => this.checkGameState(), 800);
       } else {
         //player move
         console.log(`Det är ${this.getPlayersName()}'s tur att spela.`);
@@ -80,7 +80,7 @@ export default class Game {
           return;
         }
 
-        this.checkGameState();
+        setTimeout(() => this.checkGameState(), 1000);
       }
     };
 
