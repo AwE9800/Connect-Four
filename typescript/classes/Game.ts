@@ -41,50 +41,35 @@ export default class Game {
     }
   }
 
-  aiMove(): number {
-    const column = Math.floor(Math.random() * 7);
-
-    if (!this.board.makeMove(column)) {
-      return this.aiMove();
-    }
-
-    return column;
-  }
-
   startGameLoop(): void {
-    const gameLoop = () => {
-      this.board.render();
-      // AI move
-      if (this.board.currentPlayer === 'Red' && this.playerRed?.isAI) {
-        console.log(`AI (${this.playerRed.name}) spelar...`);
-        this.aiMove();
-        setTimeout(() => this.checkGameState(), 800);
-      } else if (this.board.currentPlayer === 'Yellow' && this.playerYellow?.isAI) {
-        console.log(`AI (${this.playerYellow.name}) spelar...`);
-        this.aiMove();
-        setTimeout(() => this.checkGameState(), 800);
-      } else {
-        //player move
-        console.log(`Det är ${this.getPlayersName()}'s tur att spela.`);
-        const column = parseInt(getPrompt('Ange kolumn (1-7): '), 10) - 1;
+    this.board.render();
+    const currentPlayer = this.board.currentPlayer;
 
-        if (column < 0 || column >= 7) {
-          console.log('Ogiltigt kolumnnummer, försök igen.');
-          setTimeout(gameLoop, 2000);
-          return;
-        }
-
-        if (!this.board.makeMove(column)) {
-          console.log('Kolumnen är full eller ogiltigt drag, försök igen.');
-          setTimeout(gameLoop, 2000);
-          return;
-        }
-
-        setTimeout(() => this.checkGameState(), 1000);
+    if (currentPlayer === 'Red' && this.playerRed?.isAI) {
+      console.log(`AI (${this.playerRed.name}) spelar...`);
+      setTimeout(() => {
+        this.playerRed?.makeAIMove(this.board);
+        this.checkGameState();
+      }, 800);
+    } else if (currentPlayer === 'Yellow' && this.playerYellow?.isAI) {
+      console.log(`AI (${this.playerYellow.name}) spelar...`);
+      setTimeout(() => {
+        this.playerYellow?.makeAIMove(this.board);
+        this.checkGameState();
+      }, 800);
+    } else if (currentPlayer === 'Red') {
+      if (!this.playerRed?.makePlayerMove(this.board)) {
+        setTimeout(() => this.startGameLoop(), 1000);
+        return;
       }
-    };
-
-    gameLoop();
+      this.checkGameState();
+    } else if (currentPlayer === 'Yellow') {
+      if (!this.playerYellow?.makePlayerMove(this.board)) {
+        setTimeout(() => this.startGameLoop(), 1000);
+        return;
+      }
+      this.checkGameState();
+    }
   }
 
   checkGameState(): void {
