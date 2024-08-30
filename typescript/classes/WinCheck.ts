@@ -9,47 +9,52 @@ export default class WinCheck {
 
   checkForWin(): boolean {
     const playerToCheck = this.currentPlayer === 'Red' ? 'Yellow' : 'Red';
+    const streakLength = 4;
+    const offsets = [
+      [
+        [0, 0],
+        [0, 1],
+        [0, 2],
+        [0, 3],
+      ],
+      [
+        [0, 0],
+        [1, 0],
+        [2, 0],
+        [3, 0],
+      ],
+      [
+        [0, 0],
+        [1, 1],
+        [2, 2],
+        [3, 3],
+      ],
+      [
+        [0, 0],
+        [1, -1],
+        [2, -2],
+        [3, -3],
+      ],
+    ];
 
-    for (let row = 0; row < this.matrix.length; row++) {
-      for (let col = 0; col < this.matrix[row].length; col++) {
-        if (this.matrix[row][col] === playerToCheck) {
-          if (
-            col + 3 < this.matrix[row].length &&
-            this.matrix[row][col + 1] === playerToCheck &&
-            this.matrix[row][col + 2] === playerToCheck &&
-            this.matrix[row][col + 3] === playerToCheck
-          ) {
-            return true;
+    for (let r = 0; r < this.matrix.length; r++) {
+      for (let c = 0; c < this.matrix[0].length; c++) {
+        for (let winType of offsets) {
+          let colorsInCombo = '';
+          for (let [ro, co] of winType) {
+            if (r + ro >= 0 && r + ro < this.matrix.length && c + co >= 0 && c + co < this.matrix[0].length) {
+              colorsInCombo += this.matrix[r + ro][c + co];
+            } else {
+              colorsInCombo += ' ';
+            }
           }
-          if (
-            row + 3 < this.matrix.length &&
-            this.matrix[row + 1][col] === playerToCheck &&
-            this.matrix[row + 2][col] === playerToCheck &&
-            this.matrix[row + 3][col] === playerToCheck
-          ) {
-            return true;
-          }
-          if (
-            row - 3 >= 0 &&
-            col + 3 < this.matrix[row].length &&
-            this.matrix[row - 1][col + 1] === playerToCheck &&
-            this.matrix[row - 2][col + 2] === playerToCheck &&
-            this.matrix[row - 3][col + 3] === playerToCheck
-          ) {
-            return true;
-          }
-          if (
-            row + 3 < this.matrix.length &&
-            col + 3 < this.matrix[row].length &&
-            this.matrix[row + 1][col + 1] === playerToCheck &&
-            this.matrix[row + 2][col + 2] === playerToCheck &&
-            this.matrix[row + 3][col + 3] === playerToCheck
-          ) {
+          if (colorsInCombo === playerToCheck.repeat(streakLength)) {
             return true;
           }
         }
       }
     }
+
     return false;
   }
 }
