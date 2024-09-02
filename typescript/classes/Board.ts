@@ -27,8 +27,11 @@ export default class Board {
   }
 
   makeMove(column: number): boolean {
-    const success = this.MakeMoveCheck.makeMove(column);
+    const success = this.MakeMoveCheck.makeMoveCheck(column);
     if (success) {
+      if (this.checkForWin()) {
+        return success;
+      }
       this.currentPlayer = this.currentPlayer === 'Red' ? 'Yellow' : 'Red';
       this.winCheck = new WinCheck(this.matrix, this.currentPlayer);
       this.MakeMoveCheck = new MakeMoveCheck(this.matrix, this.currentPlayer);
