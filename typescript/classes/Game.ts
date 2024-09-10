@@ -20,13 +20,15 @@ export default class Game {
 
     const isRedAI = getPrompt('Ska spelare Röd vara AI? (ja/nej): ').toLowerCase() === 'ja';
     const isYellowAI = getPrompt('Ska spelare Gul vara AI? (ja/nej): ').toLowerCase() === 'ja';
+    const isRedSmartAI = getPrompt('Ska AI-Röd vara smart? (ja/nej): ').toLowerCase() === 'ja';
+    const isYellowSmartAI = getPrompt('Ska AI-Gul vara smart? (ja/nej): ').toLowerCase() === 'ja';
 
     const nameRed = isRedAI ? 'AI-Röd' : getPrompt('Spelare Röd:s namn: ');
     const nameYellow = isYellowAI ? 'AI-Gul' : getPrompt('Spelare Gul:s namn: ');
 
     this.players = {
-      Red: new Player(nameRed, 'Red', isRedAI),
-      Yellow: new Player(nameYellow, 'Yellow', isYellowAI),
+      Red: new Player(nameRed, 'Red', isRedAI, isRedSmartAI),
+      Yellow: new Player(nameYellow, 'Yellow', isYellowAI, isYellowSmartAI),
     };
   }
   getCurrentPlayer(): Player {
