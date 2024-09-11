@@ -19,12 +19,33 @@ export default class Game {
     console.log('Välkommen till FYRA-I-RAD!\n');
 
     const isRedAI = getPrompt('Ska spelare Röd vara AI? (ja/nej): ').toLowerCase() === 'ja';
-    const isYellowAI = getPrompt('Ska spelare Gul vara AI? (ja/nej): ').toLowerCase() === 'ja';
-    const isRedSmartAI = getPrompt('Ska AI-Röd vara smart? (ja/nej): ').toLowerCase() === 'ja';
-    const isYellowSmartAI = getPrompt('Ska AI-Gul vara smart? (ja/nej): ').toLowerCase() === 'ja';
+    let isRedSmartAI = false;
+    if (isRedAI) {
+      isRedSmartAI = getPrompt('Ska AI-Röd vara smart? (ja/nej): ').toLowerCase() === 'ja';
+    }
 
-    const nameRed = isRedAI ? 'AI-Röd' : getPrompt('Spelare Röd:s namn: ');
-    const nameYellow = isYellowAI ? 'AI-Gul' : getPrompt('Spelare Gul:s namn: ');
+    const isYellowAI = getPrompt('Ska spelare Gul vara AI? (ja/nej): ').toLowerCase() === 'ja';
+    let isYellowSmartAI = false;
+    if (isYellowAI) {
+      isYellowSmartAI = getPrompt('Ska AI-Gul vara smart? (ja/nej): ').toLowerCase() === 'ja';
+    }
+    let nameRed = '';
+
+    while (!isRedAI && nameRed.trim() === '') {
+      nameRed = getPrompt('Spelare Röd:s namn: ');
+    }
+    if (isRedAI) {
+      nameRed = 'AI-Röd';
+    }
+
+    let nameYellow = '';
+
+    while (!isYellowAI && nameYellow.trim() === '') {
+      nameYellow = getPrompt('Spelare Gul:s namn: ');
+    }
+    if (isYellowAI) {
+      nameYellow = 'AI-Gul';
+    }
 
     this.players = {
       Red: new Player(nameRed, 'Red', isRedAI, isRedSmartAI),
